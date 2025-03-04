@@ -6,7 +6,7 @@ import numpy as _np
 import tqdm as _tqdm
 import pyvisa as _visa
 from time import sleep
-from Rigol1000z.commands import *
+from .commands import *
 from typing import List
 
 

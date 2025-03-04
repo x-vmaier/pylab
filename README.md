@@ -1,98 +1,102 @@
-# Pyrigol
+# Pylab
 
-Pyrigol is a Python command-line interface (CLI) tool that allows you to capture data from a Rigol DS1000z oscilloscope. The tool can automatically configure the oscilloscope, capture both waveform data and a screenshot, and output LaTeX-compatible files for generating plots or tables from the captured data.
+Pylab is a Python command-line interface (CLI) tool for capturing and processing data from Rigol DS1000z oscilloscopes. It provides dedicated commands for directly reading oscilloscope data and for processing simulation/measurement data through a data pipeline.
 
 ## Installation
 
 ### Prerequisites
 
-Before using Pyrigol, you need the following dependencies:
+- **Python:** Version lower than 3.13
+- **Hardware:** A Rigol DS1000z series oscilloscope with TCP/IP connectivity
 
-- Python < 3.13
-- A Rigol DS1000z series oscilloscope with TCP/IP connectivity
+### Steps
 
-### Dependencies
+1. **Clone the Repository:**
 
-Create a virtual environment first:
+   ```bash
+   git clone https://github.com/x-vmaier/pylab.git
+   ```
 
-```bash
-python -m venv ./venv
-```
+2. **Navigate to the Project Directory:**
 
-Activate it with:
+   ```bash
+   cd pylab
+   ```
 
-```bash
-venv/Scripts/activate  # Windows
-source venv/bin/activate  # macOS/Linux
-```
+3. **Install the Module:**
 
-To install the required dependencies, run:
+   Use pip to install the project:
 
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   python -m pip install .
+   ```
 
 ## Usage
 
-You can run the Pyrigol CLI tool with the following options:
+Pylab organizes commands into distinct groups:
+
+### Oscilloscope Commands (`oszi`)
+
+- **Read Data:**  
+  Connect to an oscilloscope and capture data.
+
+  ```bash
+  pylab oszi read <ip_address> [OPTIONS]
+  ```
+
+  **Options:**
+
+  - `-c, --start-channel INTEGER`  
+    Starting channel number (default: 1)
+  - `-e, --end-channel INTEGER`  
+    Ending channel number (default: 1)
+  - `-a, --autoscale`  
+    Enable autoscaling
+  - `-s, --screenshot TEXT`  
+    Screenshot file path (default: `./screenshot.png`)
+  - `-w, --waveform TEXT`  
+    Waveform data file path (default: `./waveform.csv`)
+  - `-d, --delay FLOAT`  
+    Acquisition delay in seconds (default: 0.5)
+
+- **List Instruments:**  
+  List all available TCP/IP instrument resources.
+
+  ```bash
+  pylab oszi list
+  ```
+
+### Pipeline Commands (`pipeline`)
+
+- **Run Data Pipeline:**  
+  Process simulation and measurement data.
+
+  ```bash
+  pylab pipeline run [OPTIONS]
+  ```
+
+  **Options:**
+
+  - `-s, --sim PATH`  
+    Simulation data file (Excel format; required)
+  - `-m, --meas PATH`  
+    Measurement data file (CSV format; required)
+  - `-t, --trigger FLOAT`  
+    Threshold for event detection (default: 0.01)
+  - `-f, --smooth BOOLEAN`  
+    Apply smoothing before calculating the derivative (default: True)
+  - `-p, --plot`  
+    Generate plots from the data
+
+For more detailed help with each command, run:
 
 ```bash
-python pyrigol.py [options]
-```
-
-### Options
-
-- `--ip`: (Optional) VISA resource string or IP address of the oscilloscope (e.g., `TCPIP0::192.168.1.100::INSTR`). If not provided, you will be prompted to enter it interactively.
-- `--start-channel`: (Optional) The starting channel number (default: 1).
-- `--end-channel`: (Optional) The ending channel number (default: 2).
-- `--screenshot`: (Optional) File path to save the screenshot (default: `./screenshot.png`).
-- `--data`: (Optional) File path to save the waveform data (default: `./waveform.csv`).
-- `--tex`: (Optional) File path for LaTeX output (default: `./output.tex`).
-- `--tex-type`: (Optional) Type of LaTeX output ("plot" or "table").
-- `--delay`: (Optional) Acquisition delay in seconds before capturing (default: 0.5).
-- `--autoscale`: (Optional) Whether to autoscale the oscilloscope (default: `True`).
-- `--interactive/--no-interactive`: (Optional) Run interactively to prompt for missing values (default: `interactive`).
-
-### Interactive Mode
-
-In interactive mode, if any arguments are missing, you will be prompted to provide values. This allows you to configure the oscilloscope and capture data dynamically.
-
-## LaTeX Output
-
-Pyrigol can generate LaTeX-compatible files for displaying captured data either as a plot or a table:
-
-- **Plot**: A LaTeX file for plotting the waveform data using `pgfplots`.
-- **Table**: A LaTeX file for displaying the waveform data in a table format.
-
-### Example LaTeX Output (Plot)
-
-```latex
-\documentclass{article}
-\usepackage{pgfplots}
-\usepackage[utf8]{inputenc}
-\pgfplotsset{compat=1.18}
-\begin{document}
-
-\begin{tikzpicture}
-    \begin{axis}[
-            width=0.8\textwidth,
-            height=0.7\textwidth,
-            xlabel={Time (s)},
-            ylabel={Value},
-            title={Plot from CSV Data},
-            grid=major
-        ]
-        \addplot table [mark=none, col sep=comma] {{{discharge_curve.csv}}};
-        \addlegendentry{Data}
-    \end{axis}
-\end{tikzpicture}
-
-\end{document}
+pylab [COMMAND] --help
 ```
 
 ## Contributing
 
-Feel free to fork the repository, report issues, or submit pull requests to contribute.
+Contributions are welcome! Please feel free to fork the repository, report issues, or submit pull requests. Ensure you follow the project’s coding style.
 
 ## License
 
@@ -100,5 +104,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Acknowledgements
 
-- This project uses the [Rigol1000z Python package](https://github.com/AlexZettler/Rigol1000z) for communicating with the Rigol DS1000z oscilloscope.
-- The LaTeX code for generating plots is based on the `pgfplots` package.
+- This project uses the [Rigol1000z Python package](https://github.com/AlexZettler/Rigol1000z) for communication with Rigol DS1000z oscilloscopes.

@@ -3,7 +3,7 @@ This module contains menu hierarchy abstractions.
 """
 
 import pyvisa as _visa
-from Rigol1000z.constants import *
+from .constants import *
 
 
 class CommandMenu:

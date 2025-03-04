@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pylab"
+version = "0.1.0"
+description = "PyLab - Laboratory Automation CLI Tool"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+keywords = ["automation", "laboratory", "CLI", "tool"]
+license = {text = "MIT"}
+authors = [
+    {name = "x-vmaier", email = "valentin16.maier@gmail.com"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering"
+]
+dependencies = [
+    "click>=8.1",
+    "Jinja2>=3.1",
+    "matplotlib>=3.10",
+    "pandas>=2.2",
+    "psutil>=7.0",
+    "PyVISA>=1.14",
+    "PyVISA-py>=0.7",
+    "numpy>=2.2",
+    "openpyxl>=3.1",
+    "questionary>=2.1",
+    "tqdm>=4.67",
+    "wheel>=0.45",
+    "zeroconf>=0.145",
+    "scipy>=1.15"
+]
+
+[project.urls]
+"Home-page" = "https://github.com/x-vmaier/pylab"
+"Issues" = "https://github.com/x-vmaier/pylab/issues"
+
+[project.scripts]
+pylab = "pylab.cli:cli"

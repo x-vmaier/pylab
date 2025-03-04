@@ -6,8 +6,8 @@ import os
 import numpy as _np
 import tqdm as _tqdm
 import pyvisa as _visa
-from Rigol1000z.rigol1000zcommandmenu import Rigol1000zCommandMenu
-from Rigol1000z.constants import *
+from .rigol1000zcommandmenu import Rigol1000zCommandMenu
+from .constants import *
 from typing import List, Union, Iterable
 
 
