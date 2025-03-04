@@ -1,7 +1,7 @@
 import time
 import click
 import pyvisa
-from ..thirdparty.Rigol1000z import Rigol1000z, EWaveformMode
+from pylab.thirdparty.Rigol1000z import Rigol1000z, EWaveformMode
 
 
 class OscilloscopeReader:

@@ -1,5 +1,5 @@
 import click
-from ..core.pipeline_processor import PipelineProcessor
+from pylab.core.pipeline_processor import PipelineProcessor
 
 
 @click.group()

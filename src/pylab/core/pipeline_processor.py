@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
-from ..utils.helpers import align_datasets_on_event, interpolate_simulation
+from pylab.utils.helpers import align_datasets_on_event, interpolate_simulation
 
 
 class PipelineProcessor:

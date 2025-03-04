@@ -1,6 +1,6 @@
 import click
-from .commands.oszi import oszi
-from .commands.pipeline import pipeline
+from pylab.commands.oszi import oszi
+from pylab.commands.pipeline import pipeline
 
 
 @click.group()

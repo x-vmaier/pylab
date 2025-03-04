@@ -1,7 +1,7 @@
 import click
 import pyvisa
-from ..core.oscilloscope import OscilloscopeReader
-from ..utils.helpers import list_tcpip_resources, validate_ip_address
+from pylab.core.oscilloscope import OscilloscopeReader
+from pylab.utils.helpers import list_tcpip_resources, validate_ip_address
 
 
 @click.group()
