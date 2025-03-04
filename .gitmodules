@@ -1,0 +1,3 @@
+[submodule "src/pylab/thirdparty/Rigol1000z"]
+	path = src/pylab/thirdparty/Rigol1000z
+	url = https://github.com/AlexZettler/Rigol1000z.git
