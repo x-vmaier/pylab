@@ -12,6 +12,3 @@ def cli():
 
 cli.add_command(oszi)
 cli.add_command(pipeline)
-
-if __name__ == '__main__':
-    cli()
