@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 import matplotlib.pyplot as plt
 from pylab.utils.helpers import align_datasets_on_event, interpolate_simulation, read_data
 
