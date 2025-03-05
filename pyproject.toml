@@ -10,9 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10,<3.13"
 keywords = ["automation", "laboratory", "CLI", "tool"]
 license = {text = "MIT"}
-authors = [
-    {name = "x-vmaier", email = "valentin16.maier@gmail.com"}
-]
+authors = [{name = "x-vmaier", email = "valentin16.maier@gmail.com"}]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
@@ -33,7 +31,8 @@ dependencies = [
     "tqdm>=4.67",
     "wheel>=0.45",
     "zeroconf>=0.145",
-    "scipy>=1.15"
+    "scipy>=1.15",
+    "Rigol1000z @ git+https://github.com/x-vmaier/Rigol1000z.git@master#egg=Rigol1000z"
 ]
 
 [project.urls]
