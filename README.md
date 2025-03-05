@@ -14,7 +14,7 @@ Pylab is a Python command-line interface (CLI) tool for capturing and processing
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/x-vmaier/pylab.git
+   git clone --recurse-submodules https://github.com/x-vmaier/pylab.git
    ```
 
 2. **Navigate to the Project Directory:**
