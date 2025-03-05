@@ -25,6 +25,16 @@ def validate_ip_address(ip_address):
         return True
     except ValueError:
         return False
+    
+    
+def read_data(file_path, file_ext):
+    """Helper function to read simulation or measurement data based on file extension."""
+    if file_ext == '.xlsx':
+        return pd.read_excel(file_path, skiprows=1, names=['X', 'Y'])
+    elif file_ext == '.csv':
+        return pd.read_csv(file_path, delimiter=',', header=None, names=['X', 'Y'])
+    else:
+        raise ValueError(f"Unsupported file extension: {file_ext}")
 
 
 def shift_csv(data: pd.DataFrame, column_name: str, amount: float) -> pd.DataFrame:

@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
-from pylab.utils.helpers import align_datasets_on_event, interpolate_simulation
+from pylab.utils.helpers import align_datasets_on_event, interpolate_simulation, read_data
 
 
 class PipelineProcessor:
@@ -15,9 +15,12 @@ class PipelineProcessor:
         """Process simulation and measurement data"""
         self.sim_file = sim_file
         self.meas_file = meas_file
-
-        self.sim_data = pd.read_excel(sim_file, skiprows=1, names=['X', 'Y'])
-        self.meas_data = pd.read_csv(meas_file, delimiter=',', header=None, names=['X', 'Y'])
+        
+        sim_file_ext = os.path.splitext(os.path.basename(self.sim_file))[1]
+        meas_file_ext = os.path.splitext(os.path.basename(self.meas_file))[1]
+        
+        self.sim_data = read_data(sim_file, sim_file_ext)
+        self.meas_data = read_data(meas_file, meas_file_ext)
 
         self.meas_data, self.sim_data = align_datasets_on_event(self.meas_data, self.sim_data, trigger, smooth=smooth)
         self.sim_data = interpolate_simulation(self.sim_data, self.meas_data)
