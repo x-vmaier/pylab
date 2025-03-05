@@ -25,8 +25,8 @@ def validate_ip_address(ip_address):
         return True
     except ValueError:
         return False
-    
-    
+
+
 def read_data(file_path, file_ext):
     """Helper function to read simulation or measurement data based on file extension."""
     if file_ext == '.xlsx':

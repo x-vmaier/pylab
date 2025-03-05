@@ -1,6 +1,7 @@
 import click
 from pylab.core.pipeline_processor import PipelineProcessor
 
+
 def pipeline_run_impl(sim, meas, trigger, smooth, plot):
     """Run a data processing pipeline with simulation and measurement data"""
     click.echo(f"Running pipeline with simulation data from: {sim}")
@@ -16,7 +17,7 @@ def pipeline_run_impl(sim, meas, trigger, smooth, plot):
 
     try:
         processor = PipelineProcessor()
-        processor.run(sim_file=sim, meas_file=meas,trigger=trigger, smooth=smooth)
+        processor.run(sim_file=sim, meas_file=meas, trigger=trigger, smooth=smooth)
         processor.save()
 
         if plot:
@@ -25,4 +26,5 @@ def pipeline_run_impl(sim, meas, trigger, smooth, plot):
 
         click.secho("Pipeline completed successfully", fg='green', bold=True)
     except Exception as e:
-        click.secho(f"Error during pipeline execution: {e}", fg='red', bold=True)
+        click.secho(
+            f"Error during pipeline execution: {e}", fg='red', bold=True)

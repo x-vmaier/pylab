@@ -14,10 +14,10 @@ class PipelineProcessor:
         """Process simulation and measurement data"""
         self.sim_file = sim_file
         self.meas_file = meas_file
-        
+
         sim_file_ext = os.path.splitext(os.path.basename(self.sim_file))[1]
         meas_file_ext = os.path.splitext(os.path.basename(self.meas_file))[1]
-        
+
         self.sim_data = read_data(sim_file, sim_file_ext)
         self.meas_data = read_data(meas_file, meas_file_ext)
 
@@ -38,8 +38,8 @@ class PipelineProcessor:
             raise Exception("Failed to generate plot: Data is missing")
 
         plt.figure(figsize=(10, 6))
-        plt.plot(self.meas_data['X'], self.meas_data['Y'],label="Measurements", color='b', linestyle='-')
-        plt.plot(self.sim_data['X'], self.sim_data['Y'],label="Interpolated Simulation", color='r', linestyle='--')
+        plt.plot(self.meas_data['X'], self.meas_data['Y'], label="Measurements", color='b', linestyle='-')
+        plt.plot(self.sim_data['X'], self.sim_data['Y'], label="Interpolated Simulation", color='r', linestyle='--')
         plt.xlabel('X Value')
         plt.ylabel('Y Value')
         plt.title('Pipeline Output')

@@ -7,7 +7,7 @@ from pylab.utils.helpers import list_tcpip_resources, validate_ip_address
 def oszi_read_impl(ip_address, start_channel, end_channel, autoscale, screenshot, waveform, delay):
     """Read data from an oscilloscope at the specified IP address"""
     if not validate_ip_address(ip_address):
-        click.secho(f"{ip_address} is not a valid IP address",fg='red', bold=True)
+        click.secho(f"{ip_address} is not a valid IP address", fg='red', bold=True)
         exit(1)
 
     click.echo("=== Oscilloscope Data Read ===")
@@ -26,7 +26,7 @@ def oszi_read_impl(ip_address, start_channel, end_channel, autoscale, screenshot
         reader.save_screenshot(screenshot)
         reader.save_waveform(waveform)
 
-        click.secho("Data successfully read from oscilloscope",fg='green', bold=True)
+        click.secho("Data successfully read from oscilloscope", fg='green', bold=True)
     except Exception as e:
         click.secho(f"Error during oscilloscope read: {e}", fg='red', bold=True)
 
