@@ -88,9 +88,6 @@ def align_datasets_on_event(meas_data: pd.DataFrame, sim_data: pd.DataFrame, eve
     sim_event_indices = np.where(np.abs(sim_derivative) > event_threshold)[0]
     sim_event_index = sim_event_indices[0] if sim_event_indices.size > 0 else np.argmax(np.abs(sim_derivative))
 
-    click.echo(f"Measurement event detected at index: {meas_event_index}")
-    click.echo(f"Simulation event detected at index: {sim_event_index}")
-
     # Shift both datasets so that the event occurs at x = 0 + padding
     shift_amount_meas = meas_data['X'].iloc[meas_event_index] - padding
     shift_amount_sim = sim_data['X'].iloc[sim_event_index] - padding
