@@ -27,8 +27,6 @@ class PipelineProcessor:
 
     def save(self):
         """ Save the processed simulation and measurement data to CSV files"""
-        
-        # Extract filename without extension
         sim_output_file = os.path.splitext(os.path.basename(self.sim_file))[0]
         meas_output_file = os.path.splitext(os.path.basename(self.meas_file))[0]
 
