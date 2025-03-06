@@ -22,6 +22,9 @@ def read(ip_address, start_channel, end_channel, autoscale, reset, screenshot, w
 
 
 @oszi.command()
-def list():
+@click.option('-n', '--network', type=str, default="172.16.0.0/16", help="Network range to scan.")
+@click.option('-r', '--threads', type=int, default=500, help='Number of threads to use.')
+@click.option('-t', '--timeout', type=int, default=1, help='Connection timeout in seconds.')
+def list(network, threads, timeout):
     from pylab.implementations.oszi import oszi_list_impl
-    oszi_list_impl()
+    oszi_list_impl(network, threads, timeout)

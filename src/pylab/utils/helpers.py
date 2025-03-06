@@ -1,21 +1,56 @@
 import click
 import pyvisa
+import socket
 import ipaddress
 import numpy as np
 import pandas as pd
+from concurrent.futures import ThreadPoolExecutor
 from scipy.signal import savgol_filter
 
+VISA_PORT = 111
+SCPI_PORT = 5555
 
-def list_tcpip_resources() -> list:
-    """Query the VISA resource manager for all TCPIP instruments."""
+
+def check_visa(ip):
+    """Check if a device at the IP responds via VISA."""
+    resource = f"TCPIP0::{ip}::INSTR"
     try:
         rm = pyvisa.ResourceManager()
-        resources = rm.list_resources()
-        tcpip_resources = [res for res in resources if "TCPIP" in res]
-        return tcpip_resources
-    except Exception as e:
-        click.echo(f"Error listing VISA resources: {e}")
-        return []
+        inst = rm.open_resource(resource, timeout=2000)
+        idn = inst.query("*IDN?")
+        click.echo(f"[VISA] Found instrument at {ip}: {idn.strip()}")
+        return (ip, idn.strip())
+    except Exception:
+        return None
+
+
+def check_socket(ip, timeout):
+    """Check if a device at the IP responds via raw SCPI socket."""
+    try:
+        with socket.create_connection((ip, SCPI_PORT), timeout=timeout) as s:
+            s.sendall(b'*IDN?\n')
+            response = s.recv(1024).decode().strip()
+            if response:
+                click.echo(f"[SOCKET] Found instrument at {ip}: {response}")
+                return (ip, response)
+    except (socket.timeout, ConnectionRefusedError):
+        return None
+
+
+def list_tcpip_resources(network, threads, timeout) -> list:
+    """Query the VISA resource manager for all TCPIP instruments."""
+    ips = [str(ip) for ip in ipaddress.IPv4Network(
+        network, strict=False).hosts()]
+
+    with ThreadPoolExecutor(max_workers=threads) as executor:
+        visa_future = executor.map(check_visa, ips)
+        socket_future = executor.map(lambda ip: check_socket(ip, timeout), ips)
+
+        visa_results = list(visa_future)
+        socket_results = list(socket_future)
+
+    devices = [res for res in visa_results + socket_results if res]
+    return devices
 
 
 def validate_ip_address(ip_address):

@@ -29,10 +29,17 @@ def oszi_read_impl(ip_address, start_channel, end_channel, autoscale, reset, scr
         click.secho(f"Error during oscilloscope read: {e}", fg='red', bold=True)
 
 
-def oszi_list_impl():
+def oszi_list_impl(network, threads, timeout):
     """List all available TCPIP instrument resources"""
-    try:
-        tcpip_resources = list_tcpip_resources()
+    click.echo("=== Oscilloscope List ===")
+    click.echo(f"Network : {network}")
+
+    click.echo("Configuration:")
+    click.echo(f"  - Threads: {threads}")
+    click.echo(f"  - Timeout: {timeout}s")
+    
+    try:        
+        tcpip_resources = list_tcpip_resources(network, threads, timeout)
         if not tcpip_resources:
             click.echo("No TCPIP instruments found on the network")
             return
