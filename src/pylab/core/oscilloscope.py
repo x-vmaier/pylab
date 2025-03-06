@@ -20,16 +20,21 @@ class OscilloscopeReader:
         except Exception as e:
             raise Exception(f"Failed to open resource '{resource_str}': {e}")
 
-    def read_channels(self, start_channel, end_channel, autoscale=False, delay=0.5, screenshot_path='screenshot.png', csv_path='data.csv'):
+    def read_channels(self, start_channel, end_channel, autoscale=False, reset=False, delay=0.5, screenshot_path='screenshot.png', csv_path='data.csv'):
         """Read data from the oscilloscope"""
         channels = list(range(start_channel, end_channel + 1))
         with Rigol1000z(self.instrument) as scope:
             if autoscale:
                 try:
-                    #scope.ieee488.reset()
                     scope.autoscale()
                 except Exception as e:
                     raise Exception(f"Failed to autoscale scope: {e}")
+            
+            if reset:
+                try:
+                    scope.ieee488.reset()
+                except Exception as e:
+                    raise Exception(f"Failed to reset scope: {e}")
 
             try:
                 # scope.run()
@@ -54,8 +59,3 @@ class OscilloscopeReader:
                 scope.get_data(EWaveformMode.Raw, csv_path)
             except Exception as e:
                 raise Exception(f"Error saving waveform data: {e}")
-
-            try:
-                scope.run()  # Resume scope
-            except Exception as e:
-                raise Exception(f"Could not resume scope cleanly: {e}")
