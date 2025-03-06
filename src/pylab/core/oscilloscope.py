@@ -20,50 +20,42 @@ class OscilloscopeReader:
         except Exception as e:
             raise Exception(f"Failed to open resource '{resource_str}': {e}")
 
-    def read_channels(self, start_channel, end_channel, autoscale=False, delay=0.5):
+    def read_channels(self, start_channel, end_channel, autoscale=False, delay=0.5, screenshot_path='screenshot.png', csv_path='data.csv'):
         """Read data from the oscilloscope"""
         channels = list(range(start_channel, end_channel + 1))
-        captured_data = {}
-
         with Rigol1000z(self.instrument) as scope:
             if autoscale:
                 try:
-                    scope.ieee488.reset()
+                    #scope.ieee488.reset()
                     scope.autoscale()
                 except Exception as e:
                     raise Exception(f"Failed to autoscale scope: {e}")
 
             try:
-                scope.run()
+                # scope.run()
                 for ch in channels:
                     scope[ch].enabled = True
             except Exception as e:
                 raise Exception(f"Error configuring scope: {e}")
 
             time.sleep(delay)  # Wait for waveform to stabilize
-
+            
+            # try:
+            #     scope.stop()  # Stop scope for data capture
+            # except Exception as e:
+            #     raise Exception(f"Could not stop scope cleanly: {e}")
+            
             try:
-                scope.stop()
-                for ch in channels:
-                    captured_data[ch] = scope[ch].get_waveform_data()
-                scope.run()  # Resume scope
-            except Exception as e:
-                raise Exception(f"Error capturing data: {e}")
-
-    def save_screenshot(self, file_path):
-        """Capture and save a screenshot of the oscilloscope display"""
-        with Rigol1000z(self.instrument) as scope:
-            click.echo(f"Capturing screenshot to {file_path} ...")
-            try:
-                scope.get_screenshot(file_path)
+                scope.get_screenshot(screenshot_path)
             except Exception as e:
                 raise Exception(f"Error capturing screenshot: {e}")
-
-    def save_waveform(self, file_path):
-        """Capture and save waveform data"""
-        with Rigol1000z(self.instrument) as scope:
-            click.echo(f"Saving waveform data to {file_path} ...")
+            
             try:
-                scope.get_data(EWaveformMode.Raw, file_path)
+                scope.get_data(EWaveformMode.Raw, csv_path)
             except Exception as e:
                 raise Exception(f"Error saving waveform data: {e}")
+
+            try:
+                scope.run()  # Resume scope
+            except Exception as e:
+                raise Exception(f"Could not resume scope cleanly: {e}")

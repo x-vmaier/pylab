@@ -22,9 +22,7 @@ def oszi_read_impl(ip_address, start_channel, end_channel, autoscale, screenshot
 
     try:
         reader = OscilloscopeReader(ip_address)
-        reader.read_channels(start_channel, end_channel, autoscale, delay)
-        reader.save_screenshot(screenshot)
-        reader.save_waveform(waveform)
+        reader.read_channels(start_channel, end_channel, autoscale, delay, screenshot, waveform)
 
         click.secho("Data successfully read from oscilloscope", fg='green', bold=True)
     except Exception as e:
